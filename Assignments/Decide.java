@@ -125,6 +125,7 @@ public class Decide {
 
     // function you must write
     public static void DECIDE() {
-        // Implementation goes here
+        CMV = new boolean[15];
+        CMV[0] = lic0();
     }
 }
