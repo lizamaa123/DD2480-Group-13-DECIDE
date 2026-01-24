@@ -1,4 +1,4 @@
-package Assignment_1_Decide;
+package lab1;
 public class Decide {
 
     // ////////////
