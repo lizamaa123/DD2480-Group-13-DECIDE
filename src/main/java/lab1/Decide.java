@@ -105,6 +105,36 @@ public class Decide {
         return CompType.GT;
     }
 
+    public static boolean lic2() {
+        for(int i = 0; i < NUMPOINTS - 2; i++) {
+            double x1 = X[i], x2 = X[i + 1];
+            double x3 = X[i + 2], y1 = Y[i];
+            double y2 = Y[i + 1], y3 = Y[i + 2];
+
+            // Handling if points coincide with vertex (=second point)
+            if((x1 == x2 && y1 == y2) || (x3 == x2 && y3 == y2)) {
+                // skip
+                continue;
+            }
+
+            // Cosine similarity formula (only measuring vertex)
+            double vector_ab_x = x2 - x1, vector_ab_y = y2 - y1;
+            double vector_bc_x = x2 - x3, vector_bc_y = y2 - y3;
+
+            double vector_dotProd = (vector_ab_x * vector_bc_x) + (vector_ab_y * vector_bc_y);
+
+            double vector_ab_norm = Math.sqrt(Math.pow(vector_ab_x, 2) + Math.pow(vector_ab_y, 2));
+            double vector_bc_norm = Math.sqrt(Math.pow(vector_bc_x, 2) + Math.pow(vector_bc_y, 2));
+
+            double angle = Math.acos(vector_dotProd / (vector_ab_norm * vector_bc_norm));
+
+            if(angle < (PI - PARAMETERS.EPSILON) || angle > (PI + PARAMETERS.EPSILON)) {
+                return true;
+            }
+        } 
+        return false;
+    }
+
     // function you must write
     public static void DECIDE() {
         // Implementation goes here
