@@ -110,6 +110,47 @@ public class Decide {
         return 0.5 * Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2));
     }
 
+    public static boolean lic1() {
+        for(int i = 0; i < NUMPOINTS - 2; i++) {
+            double x1 = X[i];
+            double x2 = X[i + 1];
+            double x3 = X[i + 2];
+            double y1 = Y[i];
+            double y2 = Y[i + 1];
+            double y3 = Y[i + 2];
+
+            // Distance between (x1,y1) and (x2,y2)
+            double distance_a = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+            // Distance between (x2,y2) and (x3,y3)
+            double distance_b = Math.sqrt(Math.pow(x3-x2, 2) + Math.pow(y3-y2, 2));
+            // Distance between (x1,y1) and (x3,y3)
+            double distance_c = Math.sqrt(Math.pow(x3-x1, 2) + Math.pow(y3-y1, 2));
+
+            double radius;
+
+            // Conditions to check pythagorean inequality, with the longest side being the diameter = 2 x radius
+            // (also avoids zero division in radius on the else-block)
+            if(Math.pow(distance_a, 2) + Math.pow(distance_b, 2) <= Math.pow(distance_c, 2)) {
+                radius = distance_c / 2;
+            }
+            else if(Math.pow(distance_a, 2) + Math.pow(distance_c, 2) <= Math.pow(distance_b, 2)) {
+                radius = distance_b / 2;
+            }
+            else if((Math.pow(distance_b, 2) + Math.pow(distance_c, 2) <= Math.pow(distance_a, 2))) {
+                radius = distance_a / 2;
+            }
+            else {
+                double area = 0.5 * Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2));
+                radius = (distance_a * distance_b * distance_c) / (4 * area);
+            }
+
+            if(radius > PARAMETERS.RADIUS1) {
+              return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean lic3() {
         for(int i = 0; i < NUMPOINTS - 2; i++) {
             double x1 = X[i], x2 = X[i + 1];
