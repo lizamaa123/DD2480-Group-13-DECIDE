@@ -250,6 +250,26 @@ public class Decide {
         return false;
     }
 
+    public static void calculatePUM() {
+        PUM = new boolean[15][15];
+
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                Connectors operation = LCM[i][j];
+
+                if (operation == Connectors.NOTUSED) {
+                    PUM[i][j] = true;
+                }
+                else if (operation == Connectors.ANDD) {
+                    PUM[i][j] = CMV[i] && CMV[j];
+                }
+                else if (operation == Connectors.ORR) {
+                    PUM[i][j] = CMV[i] || CMV[j];
+                }
+            }
+        }
+    }
+
     // function you must write
     public static void DECIDE() {
         // Implementation goes here
