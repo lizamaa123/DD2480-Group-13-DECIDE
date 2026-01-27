@@ -121,6 +121,17 @@ public class Decide {
         return false;
     }
 
+    // Checks if there is at least one point which has moved in
+    // the negative x-direction compared to the point before it
+    private static boolean lic5() {
+        for (int i = 0; i < NUMPOINTS - 1; i++) {
+            if (DOUBLECOMPARE(X[i+1] - X[i], 0.0) == CompType.LT) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // function you must write
     public static void DECIDE() {
         // Implementation goes here

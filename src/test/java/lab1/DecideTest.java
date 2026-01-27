@@ -38,4 +38,29 @@ class DecideTest {
 
         assertFalse(Decide.lic3(), "Expected LIC3 to be false for area < AREA1");
     }
+
+    // LIC 5 TEST
+
+    @Test
+    public void testLic5Positive() {
+        // Requirement: moving backwards on x axis
+        Decide.NUMPOINTS = 3;
+        Decide.X[0] = 1.0;
+        Decide.X[1] = 5.0;
+        Decide.X[2] = 4.0; // Moved backwards compared to X[1] -> true
+        Decide.Y[0] = 0; Decide.Y[1] = 0; Decide.Y[2] = 0;  // Y values don't matter
+
+        assertTrue("LIC 5 should be true if x decreases", Decide.checkLIC5());
+    }
+
+    @Test
+    public void testLic5Negative() {
+        Decide.NUMPOINTS = 3;
+        Decide.X[0] = 1.0;
+        Decide.X[1] = 2.0;
+        Decide.X[2] = 2.0; // 2 - 2 = 0 (not < 0)
+        Decide.Y[0] = 0; Decide.Y[1] = 0; Decide.Y[2] = 0;
+
+        assertFalse("LIC 5 should be false if x is not decreasing", Decide.checkLIC5());
+    }
 }
