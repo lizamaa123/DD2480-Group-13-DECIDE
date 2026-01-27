@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class DecideTest {
 
-    @BeforeEach                                         
+    @BeforeEach
     void setUp() {
         // Reset parameters before every test to ensure clean state
         Decide.PARAMETERS = new Decide.ParametersT();
@@ -23,8 +23,8 @@ class DecideTest {
         // Setting up new test parameters
         Decide.PARAMETERS.RADIUS1 = 1.0;
         Decide.NUMPOINTS = 3;
-        Decide.X = new double[]{0.0, 2.0, 4.0}; 
-        Decide.Y = new double[]{0.0, 0.0, 0.0};   
+        Decide.X = new double[]{0.0, 2.0, 4.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0};
 
         assertTrue(Decide.lic1(), "Expected LIC1 to be true when radius > RADIUS1");
     }
@@ -35,10 +35,35 @@ class DecideTest {
         // Setting up new test parameters
         Decide.PARAMETERS.RADIUS1 = 10.0;
         Decide.NUMPOINTS = 3;
-        Decide.X = new double[]{0.0, 2.0, 4.0}; 
+        Decide.X = new double[]{0.0, 2.0, 4.0};
         Decide.Y = new double[]{0.0, 0.0, 0.0};
 
         assertFalse(Decide.lic1(), "Expected LIC1 to be false when all radius <= RADIUS1");
+    }
+
+    // LIC 2 TEST
+
+    @Test
+    @DisplayName("LIC 2 should be true when angle (90 = pi/2) is smaller than PI - EPSILON")
+    void testLic2Positive() {
+        // Setting up new test parameters
+        Decide.PARAMETERS.EPSILON = 0.0;
+        Decide.NUMPOINTS = 3;
+        Decide.X = new double[]{0.0, 0.0, 1.0};
+        Decide.Y = new double[]{1.0, 0.0, 0.0};
+
+        assertTrue(Decide.lic2(), "Expected LIC2 to be true for 90 degree angle");
+    }
+    @Test
+    @DisplayName("LIC 2 should be false for a straight line (angle is 180 = pi)")
+    void testLic2Negative() {
+        // Setting up new test parameters
+        Decide.PARAMETERS.EPSILON = 0.1;
+        Decide.NUMPOINTS = 3;
+        Decide.X = new double[]{0.0, 1.0, 2.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0};
+
+        assertFalse(Decide.lic2(), "Expected LIC2 to be false for a straight line");
     }
 
     // LIC 3 TEST
@@ -49,8 +74,8 @@ class DecideTest {
         // Setting up new test parameters
         Decide.PARAMETERS.AREA1 = 0.2;
         Decide.NUMPOINTS = 3;
-        Decide.X = new double[]{0.0, 0.0, 1.0}; 
-        Decide.Y = new double[]{1.0, 0.0, 0.0};   
+        Decide.X = new double[]{0.0, 0.0, 1.0};
+        Decide.Y = new double[]{1.0, 0.0, 0.0};
 
         assertTrue(Decide.lic3(), "Expected LIC3 to be true for area > AREA1");
     }
@@ -60,7 +85,7 @@ class DecideTest {
         // Setting up new test parameters
         Decide.PARAMETERS.AREA1 = 5.0;
         Decide.NUMPOINTS = 3;
-        Decide.X = new double[]{0.0, 2.0, 1.0}; 
+        Decide.X = new double[]{0.0, 2.0, 1.0};
         Decide.Y = new double[]{2.0, 0.0, 0.0};
 
         assertFalse(Decide.lic3(), "Expected LIC3 to be false for area < AREA1");
@@ -88,4 +113,6 @@ class DecideTest {
 
         assertTrue(Decide.lic7(), "Expected Lic 7 to be true when d > LENGTH1");
     }
+
+
 }
