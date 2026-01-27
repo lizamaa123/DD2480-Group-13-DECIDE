@@ -1,8 +1,7 @@
 package lab1;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -90,6 +89,8 @@ class DecideTest {
 
         assertFalse(Decide.lic3(), "Expected LIC3 to be false for area < AREA1");
     }
+
+    // LIC 7 TEST
 
     @Test
     @DisplayName("Lic 7 should be false when NUMPOINTS is less than 3")
