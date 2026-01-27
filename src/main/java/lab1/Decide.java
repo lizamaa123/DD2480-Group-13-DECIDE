@@ -118,7 +118,111 @@ public class Decide {
 
             // condition
             if(distance > PARAMETERS.LENGTH1) {
+              return true;
+            }
+        }
+        return false;
+    }
+  
+    public static boolean lic1() {
+        for(int i = 0; i < NUMPOINTS - 2; i++) {
+            double x1 = X[i];
+            double x2 = X[i + 1];
+            double x3 = X[i + 2];
+            double y1 = Y[i];
+            double y2 = Y[i + 1];
+            double y3 = Y[i + 2];
+
+            // Distance between (x1,y1) and (x2,y2)
+            double distance_a = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+            // Distance between (x2,y2) and (x3,y3)
+            double distance_b = Math.sqrt(Math.pow(x3-x2, 2) + Math.pow(y3-y2, 2));
+            // Distance between (x1,y1) and (x3,y3)
+            double distance_c = Math.sqrt(Math.pow(x3-x1, 2) + Math.pow(y3-y1, 2));
+
+            double radius;
+
+            // Conditions to check pythagorean inequality, with the longest side being the diameter = 2 x radius
+            // (also avoids zero division in radius on the else-block)
+            if(Math.pow(distance_a, 2) + Math.pow(distance_b, 2) <= Math.pow(distance_c, 2)) {
+                radius = distance_c / 2;
+            }
+            else if(Math.pow(distance_a, 2) + Math.pow(distance_c, 2) <= Math.pow(distance_b, 2)) {
+                radius = distance_b / 2;
+            }
+            else if((Math.pow(distance_b, 2) + Math.pow(distance_c, 2) <= Math.pow(distance_a, 2))) {
+                radius = distance_a / 2;
+            }
+            else {
+                double area = 0.5 * Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2));
+                radius = (distance_a * distance_b * distance_c) / (4 * area);
+            }
+
+            if(radius > PARAMETERS.RADIUS1) {
+              return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean lic2() {
+        for(int i = 0; i < NUMPOINTS - 2; i++) {
+            double x1 = X[i], x2 = X[i + 1];
+            double x3 = X[i + 2], y1 = Y[i];
+            double y2 = Y[i + 1], y3 = Y[i + 2];
+
+            // Handling if points coincide with vertex (=second point)
+            if((x1 == x2 && y1 == y2) || (x3 == x2 && y3 == y2)) {
+                // skip
+                continue;
+            }
+
+            // Cosine similarity formula (only measuring vertex)
+            double vector_ab_x = x2 - x1, vector_ab_y = y2 - y1;
+            double vector_bc_x = x2 - x3, vector_bc_y = y2 - y3;
+
+            double vector_dotProd = (vector_ab_x * vector_bc_x) + (vector_ab_y * vector_bc_y);
+
+            double vector_ab_norm = Math.sqrt(Math.pow(vector_ab_x, 2) + Math.pow(vector_ab_y, 2));
+            double vector_bc_norm = Math.sqrt(Math.pow(vector_bc_x, 2) + Math.pow(vector_bc_y, 2));
+
+            double angle = Math.acos(vector_dotProd / (vector_ab_norm * vector_bc_norm));
+
+            if(angle < (PI - PARAMETERS.EPSILON) || angle > (PI + PARAMETERS.EPSILON)) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean lic3() {
+        for(int i = 0; i < NUMPOINTS - 2; i++) {
+            double x1 = X[i], x2 = X[i + 1];
+            double x3 = X[i + 2], y1 = Y[i];
+            double y2 = Y[i + 1], y3 = Y[i + 2];
+
+            // Shoelace formula for area of triangle
+            double area = 0.5 * Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2));
+
+            if(area > PARAMETERS.AREA1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean lic7() {
+        if(NUMPOINTS >= 3) {
+            for(int i = 0; i < (NUMPOINTS - 1); i++){
+                double x1 = X[i];
+                double x2 = X[i + PARAMETERS.K_PTS + 1];
+                double y1 = Y[i];
+                double y2 = Y[i + PARAMETERS.K_PTS + 1];
+
+                double distance = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+                if(distance > PARAMETERS.LENGTH1) {
+                    return true;
+                }
             }
         }
         return false;
