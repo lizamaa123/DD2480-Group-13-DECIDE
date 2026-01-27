@@ -254,6 +254,33 @@ public class Decide {
         return false;
     }
 
+    public static boolean lic12() {
+        if(NUMPOINTS < 3) {
+            return false;
+        }
+        boolean condition1 = false; // Distance > LENGTH1
+        boolean condition2 = false; // Distance < LENGTH2
+
+        for(int i = 0; i < NUMPOINTS - 1 - PARAMETERS.K_PTS; i++) {
+            int j = i + PARAMETERS.K_PTS + 1;
+            double distance = calculateDistance(X[i], Y[i], X[j], Y[j]);
+            if(distance > PARAMETERS.LENGTH1) {
+                condition1 = true;
+            }
+
+            if(distance < PARAMETERS.LENGTH2) {
+                condition2 = true;
+            }
+
+            // Optimization: If both are already found, we can stop early
+            if (condition1 && condition2) {
+                return true;
+            }
+        }
+        return condition1 && condition2;
+    }
+
+
     // function you must write
     public static void DECIDE() {
         // Implementation goes here
