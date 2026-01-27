@@ -250,6 +250,21 @@ public class Decide {
         return false;
     }
 
+    public static boolean lic11() {
+        if(NUMPOINTS < 3) {
+            return false;
+        }
+
+        for(int i = 0; i < NUMPOINTS - 1 - PARAMETERS.G_PTS; i++) {
+            int j = i + PARAMETERS.G_PTS + 1;
+
+            if(X[j] - X[i] < 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // function you must write
     public static void DECIDE() {
         // Implementation goes here
