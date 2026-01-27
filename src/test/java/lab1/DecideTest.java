@@ -65,4 +65,27 @@ class DecideTest {
 
         assertFalse(Decide.lic3(), "Expected LIC3 to be false for area < AREA1");
     }
+
+    @Test
+    @DisplayName("Lic 7 should be false when NUMPOINTS is less than 3")
+    void testLic7Negative() {
+        Decide.NUMPOINTS = 2;
+        Decide.PARAMETERS.K_PTS = 1;
+        Decide.X = new double[]{1.0, 2.0, 3.0};
+        Decide.Y = new double[]{1.0, 2.0, 3.0};
+
+        assertFalse(Decide.lic3(), "Expected Lic 7 to be false when NUMPOINTS < 3");
+    }
+
+    @Test
+    @DisplayName("Lic 7 should be true when distance is greater than LENGTH1")
+    void testLic7Positive() {
+        Decide.NUMPOINTS = 3;
+        Decide.PARAMETERS.K_PTS = 1;
+        Decide.PARAMETERS.LENGTH1 = 1;
+        Decide.X = new double[]{1.0, 2.0, 3.0};
+        Decide.Y = new double[]{1.0, 2.0, 3.0};
+
+        assertTrue(Decide.lic7(), "Expected Lic 7 to be true when d > LENGTH1");
+    }
 }

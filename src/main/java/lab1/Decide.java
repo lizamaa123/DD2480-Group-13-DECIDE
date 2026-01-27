@@ -162,6 +162,23 @@ public class Decide {
         return false;
     }
 
+    public static boolean lic7() {
+        if(NUMPOINTS >= 3) {
+            for(int i = 0; i < (NUMPOINTS - 1); i++){
+                double x1 = X[i];
+                double x2 = X[i + PARAMETERS.K_PTS + 1];
+                double y1 = Y[i];
+                double y2 = Y[i + PARAMETERS.K_PTS + 1];
+            
+                double distance = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+                if(distance > PARAMETERS.LENGTH1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // function you must write
     public static void DECIDE() {
         // Implementation goes here
