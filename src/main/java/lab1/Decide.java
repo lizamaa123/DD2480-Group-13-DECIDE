@@ -110,6 +110,10 @@ public class Decide {
         return 0.5 * Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2));
     }
 
+    private static double calculateDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+    }
+
     public static boolean lic0() {
         for(int i = 0; i < NUMPOINTS - 1; i++) {
             // consecutive data points e.g. (X[i],Y[i]) and (X[i+1],Y[i+1]) <-- from Glossary in assignment.
@@ -119,7 +123,7 @@ public class Decide {
             double y2 = Y[i+1];
             
             // Euclidean distance measurement
-            double distance = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+            double distance = calculateDistance(x1, y1, x2, y2);
 
             // condition
             if(distance > PARAMETERS.LENGTH1) {
@@ -139,11 +143,11 @@ public class Decide {
             double y3 = Y[i + 2];
 
             // Distance between (x1,y1) and (x2,y2)
-            double distance_a = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+            double distance_a = calculateDistance(x1, y1, x2, y2);
             // Distance between (x2,y2) and (x3,y3)
-            double distance_b = Math.sqrt(Math.pow(x3-x2, 2) + Math.pow(y3-y2, 2));
+            double distance_b = calculateDistance(x2, y2, x3, y3);
             // Distance between (x1,y1) and (x3,y3)
-            double distance_c = Math.sqrt(Math.pow(x3-x1, 2) + Math.pow(y3-y1, 2));
+            double distance_c = calculateDistance(x1, y1, x3, y3);
 
             double radius;
 
@@ -241,7 +245,7 @@ public class Decide {
                 double y1 = Y[i];
                 double y2 = Y[i + PARAMETERS.K_PTS + 1];
 
-                double distance = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+                double distance = calculateDistance(x1, y1, x2, y2);
                 if(distance > PARAMETERS.LENGTH1) {
                     return true;
                 }
