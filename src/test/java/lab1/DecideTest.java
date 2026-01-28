@@ -456,6 +456,38 @@ class DecideTest {
     }
 
     @Test
+    @DisplayName("Lic 11 should be true when X[j] - X[i] < 0 with gap G_PTS")
+    public void testLic11Positive() {
+        Decide.NUMPOINTS = 3;
+        Decide.PARAMETERS.G_PTS = 1;
+        Decide.X = new double[]{5.0, 0.0, 4.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0};
+
+        assertTrue(Decide.lic11(), "Expected Lic 11 to be true when X[j] - X[i] < 0");
+    }
+
+    @Test
+    @DisplayName("Lic 11 should be false when no pair satisfies X[j] - X[i] < 0")
+    void testLic11Negative() {
+        Decide.NUMPOINTS = 4;
+        Decide.PARAMETERS.G_PTS = 1;
+        Decide.X = new double[]{1.0, 0.0, 2.0, 0.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0, 0.0};
+
+        assertFalse(Decide.lic11(), "Expected Lic 11 to be false when X value only increases or stays same");
+    }
+
+    @Test
+    @DisplayName("Lic 11 should be false when NUMPOINTS < 3")
+    void testLic11Negative2() {
+        Decide.NUMPOINTS = 2;
+        Decide.PARAMETERS.G_PTS = 1;
+        Decide.X = new double[]{5.0, 0.0, 4.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0};
+
+        assertFalse(Decide.lic11(), "Expected Lic 11 to be false when NUMPOINTS < 3");
+    }
+
     @DisplayName("Lic 8 should be true when radius is greater than RADIUS1")
     void testLic8Positive() {
         Decide.PARAMETERS.RADIUS1 = 1.0;
