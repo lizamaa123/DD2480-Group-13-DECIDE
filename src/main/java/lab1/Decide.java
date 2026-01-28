@@ -1,4 +1,5 @@
 package lab1;
+
 public class Decide {
 
     // ////////////
@@ -81,6 +82,10 @@ public class Decide {
     // Logical Connector Matrix
     public static Connectors[][] LCM;
     private static Connectors[][] LCM2;
+
+    // Preliminary Unlocking Vector
+    public static boolean[] PUV;
+    private static boolean[] PUV2;
 
     // Preliminary Unlocking Matrix
     public static boolean[][] PUM;
@@ -218,6 +223,50 @@ public class Decide {
         }
         return false;
     }
+    public static boolean lic13(){
+        if(NUMPOINTS < 5) return false;
+        if(PARAMETERS.RADIUS2 <= 0) return false;
+        int minPoints = 3 + PARAMETERS.A_PTS + PARAMETERS.B_PTS;
+        if(NUMPOINTS < minPoints) return false;
+        boolean condition1 = false;
+        boolean condition2 = false;
+
+        for (int i = 0; i <= NUMPOINTS - minPoints; i++) { 
+            //points
+            double x1 = X[i];
+            double x2 = X[i+PARAMETERS.A_PTS+1];
+            double x3 = X[i+ PARAMETERS.A_PTS+PARAMETERS.B_PTS+2];
+            double y1 = Y[i];
+            double y2 = Y[i+PARAMETERS.A_PTS+1];
+            double y3 = Y[i+PARAMETERS.A_PTS+PARAMETERS.B_PTS+2];
+            double radius;
+
+            //triangle sides
+            double a = calculateDistance(x2, y2, x3, y3);
+            double b = calculateDistance(x1, y1, x3, y3);
+            double c = calculateDistance(x1, y1, x2, y2);
+
+            //calculate area of triangle
+            double area = calculateTriangleArea(x1, y1, x2, y2, x3, y3);
+
+            //colinear case
+            if (DOUBLECOMPARE(area, 0.0) == CompType.EQ) {
+                radius = 0.5 * Math.max(a,Math.max(b,c));
+            }
+            else{
+                //calculate radius of circumscribed circle
+                radius = a*b*c / (4*area);
+            }
+            if(radius > PARAMETERS.RADIUS1){ 
+                condition1 = true;
+            }
+            if(radius <= PARAMETERS.RADIUS2){
+                condition2 = true;
+            }
+        }
+        if(condition1 && condition2) return true;
+        return false;
+    }
 
     // Helper function for calculating the Euclidean distance between two points
     private static double distance(int p1Idx, int p2Idx) {
@@ -338,6 +387,49 @@ public class Decide {
         return false;
     }
 
+
+    public static void calculatePUM() {
+        PUM = new boolean[15][15];
+
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                Connectors operation = LCM[i][j];
+
+                if (operation == Connectors.NOTUSED) {
+                    PUM[i][j] = true;
+                }
+                else if (operation == Connectors.ANDD) {
+                    PUM[i][j] = CMV[i] && CMV[j];
+                }
+                else if (operation == Connectors.ORR) {
+                    PUM[i][j] = CMV[i] || CMV[j];
+                }
+            }
+        }
+        }
+  
+    // Generate FUV from PUV and PUM
+    public static void computeFUV() {
+        // For every LIC represented in PUV
+        for (int i = 0; i < 15; i++) {
+            // If PUV[i] is false, the i:th LIC is irrelevant, so set FUV[i] to true
+            if (!PUV[i]) {
+                FUV[i] = true;
+            } else {
+                boolean entireRowTrue = true;
+                for (int j = 0; j < 15; j++) {
+                    if (i == j) { continue; }  // Skip diagonal of the PUM
+                    // If any element of the PUM row is false, break and set FUV[i] false
+                    if (!PUM[i][j]) {
+                        entireRowTrue = false;
+                        break;
+                    }
+                }
+                FUV[i] = entireRowTrue;
+            }
+        }
+    }
+    
     public static boolean lic12() {
         if(NUMPOINTS < 3) {
             return false;
@@ -400,34 +492,45 @@ public class Decide {
     }
 
     public static boolean lic14(){
-    if(NUMPOINTS < 5) return false;
-    if(PARAMETERS.AREA2 <= 0) return false;
-    int minPoints = 3 + PARAMETERS.E_PTS + PARAMETERS.F_PTS;
-    if(NUMPOINTS < minPoints) return false;
-    boolean condition1 = false; // area > AREA1
-    boolean condition2 = false; // area < AREA2
+        if(NUMPOINTS < 5) return false;
+        if(PARAMETERS.AREA2 <= 0) return false;
+        int minPoints = 3 + PARAMETERS.E_PTS + PARAMETERS.F_PTS;
+        if(NUMPOINTS < minPoints) return false;
+        boolean condition1 = false; // area > AREA1
+        boolean condition2 = false; // area < AREA2
 
-    for (int i = 0; i <= NUMPOINTS - minPoints; i++) { 
+        for (int i = 0; i <= NUMPOINTS - minPoints; i++) { 
 
-        double x1 = X[i];
-        double x2 = X[i+PARAMETERS.E_PTS+1];
-        double x3 = X[i+ PARAMETERS.E_PTS+PARAMETERS.F_PTS+2];
-        double y1 = Y[i];
-        double y2 = Y[i+PARAMETERS.E_PTS+1];
-        double y3 = Y[i+PARAMETERS.E_PTS+PARAMETERS.F_PTS+2];
+            double x1 = X[i];
+            double x2 = X[i+PARAMETERS.E_PTS+1];
+            double x3 = X[i+ PARAMETERS.E_PTS+PARAMETERS.F_PTS+2];
+            double y1 = Y[i];
+            double y2 = Y[i+PARAMETERS.E_PTS+1];
+            double y3 = Y[i+PARAMETERS.E_PTS+PARAMETERS.F_PTS+2];
 
-        double area = calculateTriangleArea(x1, y1, x2, y2, x3, y3);
+            double area = calculateTriangleArea(x1, y1, x2, y2, x3, y3);
 
-        if(area > PARAMETERS.AREA1){ 
-            condition1 = true;
+            if(area > PARAMETERS.AREA1){ 
+                condition1 = true;
+            }
+            if(area < PARAMETERS.AREA2){
+                condition2 = true;
+            }
         }
-        if(area < PARAMETERS.AREA2){
-            condition2 = true;
-        }
-    }
-    return condition1 && condition2;
+        return condition1 && condition2;
     }
     
+    // Checks if there is at least one point which has moved in
+    // the negative x-direction compared to the point before it
+    public static boolean lic5() {
+        for (int i = 0; i < NUMPOINTS - 1; i++) {
+            if (DOUBLECOMPARE(X[i+1] - X[i], 0.0) == CompType.LT) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // function you must write
     public static void DECIDE() {
         // Implementation goes here
