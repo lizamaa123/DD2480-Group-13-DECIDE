@@ -208,4 +208,31 @@ class DecideTest {
         assertTrue(Decide.lic7(), "Expected Lic 7 to be true when d > LENGTH1");
     }
 
+    @Test
+    @DisplayName("Lic 9 should be false when angle is greater than pi - epsilon, or less than pi + epsilon")
+    void testLic9Negative() {
+        Decide.NUMPOINTS = 5;
+        Decide.PARAMETERS.C_PTS = 1;
+        Decide.PARAMETERS.D_PTS = 1;
+        Decide.PARAMETERS.EPSILON = 0.1;
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.5, 2.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+        
+        assertFalse(Decide.lic9(), "Expected Lic 9 to be false for a straight line");
+
+    }
+
+    @Test
+    @DisplayName("Lic 9 should be positive when angle is less than pi - epsilon, or greater than pi + epsilon")
+    void testLic9Positive(){
+        Decide.NUMPOINTS = 5;
+        Decide.PARAMETERS.C_PTS = 1;
+        Decide.PARAMETERS.D_PTS = 1;
+        Decide.PARAMETERS.EPSILON = 0.1;
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.0, 1.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0, 0.5, 1.0};
+
+        assertTrue(Decide.lic9(), "Expected Lic 9 to be positive for a 90 degree angle");
+    }  
+    
 }
