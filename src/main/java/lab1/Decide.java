@@ -401,6 +401,7 @@ public class Decide {
 
     public static boolean lic14(){
     if(NUMPOINTS < 5) return false;
+    if(PARAMETERS.AREA2 <= 0) return false;
     int minPoints = 3 + PARAMETERS.E_PTS + PARAMETERS.F_PTS;
     if(NUMPOINTS < minPoints) return false;
     boolean condition1 = false; // area > AREA1

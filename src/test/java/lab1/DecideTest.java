@@ -420,4 +420,12 @@ class DecideTest {
 
         assertFalse(Decide.lic14(), "Expected Lic 14 to be false when NUMPOINTS < 5");
     }
+
+    @Test
+    @DisplayName("LIC 14 should be false when AREA =< 0")
+    void testLic14Area2Negative() {
+        Decide.NUMPOINTS = 4;
+        Decide.PARAMETERS.AREA2 = -1.0;
+        assertFalse(Decide.lic14(), "Expected Lic 14 to be false when AREA2 <= 0");
+    }
 }
