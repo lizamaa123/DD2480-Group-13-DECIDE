@@ -469,6 +469,24 @@ public class Decide {
             }
         }
     }
+
+    public static void setCMV(){
+        CMV[0] = lic0();
+        CMV[1] = lic1();
+        CMV[2] = lic2();
+        CMV[3] = lic3();
+        CMV[4] = lic4();
+        CMV[5] = lic5();
+        CMV[6] = lic6();
+        CMV[7] = lic7();
+        CMV[8] = lic8();
+        CMV[9] = lic9();
+        CMV[10] = lic10();
+        CMV[11] = lic11();
+        CMV[12] = lic12();
+        CMV[13] = lic13();
+        CMV[14] = lic14();
+    }
     
     public static boolean lic12() {
         if(NUMPOINTS < 3) {
