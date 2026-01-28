@@ -215,6 +215,51 @@ public class Decide {
         return false;
     }
 
+    // Helper function for calculating the Euclidean distance between two points
+    private static double distance(int p1Idx, int p2Idx) {
+        double x1 = X[p1Idx];
+        double y1 = Y[p1Idx];
+        double x2 = X[p2Idx];
+        double y2 = Y[p2Idx];
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+
+    public static boolean lic6() {
+        if (NUMPOINTS < 3) { return false; }
+
+        for (int i = 0; i <= NUMPOINTS - PARAMETERS.N_PTS; i++) {
+            int startIdx = i;
+            int endIdx = i + PARAMETERS.N_PTS - 1;
+
+            // Check if first and last points are identical
+            boolean isIdentical =
+                    (DOUBLECOMPARE(X[startIdx], X[endIdx]) == CompType.EQ) &&
+                    (DOUBLECOMPARE(Y[startIdx], Y[endIdx]) == CompType.EQ);
+
+            // Calculate the length of the line segment
+            double lineLength = 0;
+            if (!isIdentical) {
+                lineLength = distance(startIdx, endIdx);
+            }
+
+            // Iterate through the points in the window (excluding the endpoints)
+            for (int j = startIdx + 1; j < endIdx; j++) {
+                double distanceToLine;
+                if (isIdentical) {
+                    distanceToLine = distance(startIdx, j);
+                } else {  // Use triangle geometry to find normal line
+                    double area = calculateTriangleArea(X[startIdx], Y[startIdx], X[endIdx], Y[endIdx], X[j], Y[j]);;
+                    distanceToLine = (2 * area) / lineLength;
+                }
+                // LIC met if distance is greater than DIST
+                if (DOUBLECOMPARE(distanceToLine, PARAMETERS.DIST) == CompType.GT) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
     // Helper function for LIC4, handles ambiguity and gets correct quadrant
     private static int getQuadrant(int idx) {
         double x = X[idx];  // x-coordinate
