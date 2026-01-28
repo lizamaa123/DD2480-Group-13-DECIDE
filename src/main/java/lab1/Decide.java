@@ -225,6 +225,7 @@ public class Decide {
     }
     public static boolean lic13(){
         if(NUMPOINTS < 5) return false;
+        if(PARAMETERS.RADIUS2 <= 0) return false;
         int minPoints = 3 + PARAMETERS.A_PTS + PARAMETERS.B_PTS;
         if(NUMPOINTS < minPoints) return false;
         boolean condition1 = false;
