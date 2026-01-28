@@ -42,7 +42,7 @@ To build and run this project, you will need:
 
 **Helin Saeid**
 - Wrote solutions and unit tests for LIC's 7, 8, 9 
-- Wrote solution for ```DECIDE()`` and corresponding unit tests
+- Wrote solution for ``DECIDE()`` and corresponding unit tests
 - Reviewed PR's for following issues: LIC 1, 4, 12 and PUM (with its corresponding unit tests)
 
 **Liza Aziz**
@@ -53,11 +53,7 @@ To build and run this project, you will need:
 ### Remarkable
 
 ### Essence Standard
-From assignment:
-
-checklist on p.60
-
-"In what state are you in? Why? What are obstacles to reach the next state?"
+We have evaluated the checklist on page 60 of the Essence Standard and determined we are in state "Foundation Established". We have succesfully agreed on the chosen foundational tools (Java for programming, Maven for building and testing, Discord for communication, Github for version control). We have also agreed on our Code of Conduct and our assigned workload. Since this is our first project together, we have identified the gaps between our plan and our execution. For example, our plan was to dictate strict internal deadlines. However, in reality, we discovered a gap in our time estimation capabilities which lead to delays that squeezed our schedule. We are not yet in the next state "In use" because we have yet to discuss feedbacks relating to our way of working. For example, we have not yet established a consistent schedule for meetings and we have struggled with setting and adhering to these strict internal deadlines. The obstacles to reach "In use" are ensuring to overcome these time management challenges and that everybody is consistently following the chosen protocols for writing, publishing and reviewing code. Overcoming these obstacles will increase the communication and synchronize us more as a team. 
 
 ## License
 This project is licensed under the terms of the MIT license.
