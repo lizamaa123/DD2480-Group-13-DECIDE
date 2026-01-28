@@ -491,6 +491,35 @@ public class Decide {
         return false;
     }
 
+    public static boolean lic14(){
+        if(NUMPOINTS < 5) return false;
+        if(PARAMETERS.AREA2 <= 0) return false;
+        int minPoints = 3 + PARAMETERS.E_PTS + PARAMETERS.F_PTS;
+        if(NUMPOINTS < minPoints) return false;
+        boolean condition1 = false; // area > AREA1
+        boolean condition2 = false; // area < AREA2
+
+        for (int i = 0; i <= NUMPOINTS - minPoints; i++) { 
+
+            double x1 = X[i];
+            double x2 = X[i+PARAMETERS.E_PTS+1];
+            double x3 = X[i+ PARAMETERS.E_PTS+PARAMETERS.F_PTS+2];
+            double y1 = Y[i];
+            double y2 = Y[i+PARAMETERS.E_PTS+1];
+            double y3 = Y[i+PARAMETERS.E_PTS+PARAMETERS.F_PTS+2];
+
+            double area = calculateTriangleArea(x1, y1, x2, y2, x3, y3);
+
+            if(area > PARAMETERS.AREA1){ 
+                condition1 = true;
+            }
+            if(area < PARAMETERS.AREA2){
+                condition2 = true;
+            }
+        }
+        return condition1 && condition2;
+    }
+    
     // Checks if there is at least one point which has moved in
     // the negative x-direction compared to the point before it
     public static boolean lic5() {

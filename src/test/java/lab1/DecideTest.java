@@ -568,5 +568,98 @@ class DecideTest {
 
         assertTrue(Decide.lic9(), "Expected Lic 9 to be positive for a 90 degree angle");
     }  
-    
+    // LIC 14 TEST
+
+    @Test
+    @DisplayName("LIC 14 should be true when area is greater than AREA1 and less than AREA2")
+    void testLic14Positive() {
+        Decide.NUMPOINTS = 5;
+        Decide.PARAMETERS.E_PTS = 1; 
+        Decide.PARAMETERS.F_PTS = 1;
+        Decide.PARAMETERS.AREA1 = 1.0;
+        Decide.PARAMETERS.AREA2 = 2.0;
+
+        //indices: 0, 2, 4 will be checked. The set will give an area = 1.5
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.0, 1.0}; 
+        Decide.Y = new double[]{0.0, 0.0, 5.0, 0.5, 2.0};
+
+        assertTrue(Decide.lic14(), "Expected Lic 14 to be true: when AREA1 = 1.0 < area = 1.5 < AREA2 = 2.0");
+    }
+    @Test
+    @DisplayName("LIC 14 should be false when area is less than AREA1")
+    void testLic14Condition1False() {
+        Decide.NUMPOINTS = 5;
+        Decide.PARAMETERS.E_PTS = 1; 
+        Decide.PARAMETERS.F_PTS = 1;
+        Decide.PARAMETERS.AREA1 = 1.5;
+        Decide.PARAMETERS.AREA2 = 2.0;
+
+        //indices: 0, 2, 4 will be checked. The set will give an area = 1.5
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.0, 1.0}; 
+        Decide.Y = new double[]{0.0, 0.0, 5.0, 0.5, 2.0};
+
+        assertFalse(Decide.lic14(), "Expected Lic 14 to be false: when AREA1 >= area ");
+    }
+    @Test
+    @DisplayName("LIC 14 should be false when area is less than AREA1")
+    void testLic14Condition2False() {
+        Decide.NUMPOINTS = 5;
+        Decide.PARAMETERS.E_PTS = 1; 
+        Decide.PARAMETERS.F_PTS = 1;
+        Decide.PARAMETERS.AREA1 = 1.0;
+        Decide.PARAMETERS.AREA2 = 1.5;
+
+        //indices: 0, 2, 4 will be checked. The set will give an area = 1.5
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.0, 1.0}; 
+        Decide.Y = new double[]{0.0, 0.0, 5.0, 0.5, 2.0};
+
+        assertFalse(Decide.lic14(), "Expected Lic 14 to be false: when AREA2 <= area ");
+    }
+    @Test
+    @DisplayName("LIC 14 should be false when area is less than AREA1")
+    void testLic14Negative() {
+        Decide.NUMPOINTS = 5;
+        Decide.PARAMETERS.E_PTS = 1; 
+        Decide.PARAMETERS.F_PTS = 1;
+        Decide.PARAMETERS.AREA1 = 2.0;
+        Decide.PARAMETERS.AREA2 = 1.0;
+
+        //indices: 0, 2, 4 will be checked. The set will give an area = 1.5
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.0, 1.0}; 
+        Decide.Y = new double[]{0.0, 0.0, 5.0, 0.5, 2.0};
+
+        assertFalse(Decide.lic14(), "Expected Lic 14 to be false: when AREA2 <= area and AREA1 >= area");
+    }
+    @Test
+    @DisplayName("LIC 14 should be false when area is less than AREA1")
+    void testLic14PositiveDifferentSets() {
+        Decide.NUMPOINTS = 6;
+        Decide.PARAMETERS.E_PTS = 1; 
+        Decide.PARAMETERS.F_PTS = 1;
+        Decide.PARAMETERS.AREA1 = 1.0;
+        Decide.PARAMETERS.AREA2 = 0.5;
+
+        //indices: 0, 2, 4 will be checked for condition 1. The set will give an area1 = 1.5
+        //indices: 1, 3, 5 will be checked for condition 2. The set will give an area2 = 3.375
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.0, 1.0, 0.5}; 
+        Decide.Y = new double[]{0.0, 0.0, 5.0, 0.5, 2.0, 1.5};
+
+        assertTrue(Decide.lic14(), "Expected Lic 14 to be true: when AREA1 = 1.0 < area1 = 1.5  && area2 = 3.375 < AREA2 = 0.5");
+    }
+
+    @Test
+    @DisplayName("LIC 14 should be false when NUMPOINTS < 5")
+    void testLic14InsufficientPoints() {
+        Decide.NUMPOINTS = 4;
+
+        assertFalse(Decide.lic14(), "Expected Lic 14 to be false when NUMPOINTS < 5");
+    }
+
+    @Test
+    @DisplayName("LIC 14 should be false when AREA =< 0")
+    void testLic14Area2Negative() {
+        Decide.NUMPOINTS = 4;
+        Decide.PARAMETERS.AREA2 = -1.0;
+        assertFalse(Decide.lic14(), "Expected Lic 14 to be false when AREA2 <= 0");
+    }
 }
