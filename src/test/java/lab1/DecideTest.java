@@ -120,6 +120,7 @@ class DecideTest {
     // LIC 5 TEST
 
     @Test
+    @DisplayName("LIC 5 should be true when x is decreasing")
     public void testLic5Positive() {
         // Requirement: moving backwards on x axis
         Decide.NUMPOINTS = 3;
@@ -132,6 +133,7 @@ class DecideTest {
     }
 
     @Test
+    @DisplayName("LIC 5 should be false when x is not decreasing")
     public void testLic5Negative() {
         Decide.NUMPOINTS = 3;
         Decide.X[0] = 1.0;
@@ -300,6 +302,7 @@ class DecideTest {
     // LIC 6 TEST
 
     @Test
+    @DisplayName("LIC 6 should be true when point is further than DIST from line")
     void testLic6Positive() {
         // Requirement: distance > DIST
         Decide.NUMPOINTS = 3;
@@ -310,10 +313,11 @@ class DecideTest {
         Decide.Y = new double[]{0.0, 2.0, 0.0};
 
         // 2 > 1 -> True
-        assertTrue(Decide.lic6(), "LIC 6 should be true when point is further than DIST from line");
+        assertTrue(Decide.lic6(), "Point is further than DIST from line, expected LIC6 to be true");
     }
 
     @Test
+    @DisplayName("LIC 6 should be false when point is closer than DIST to line")
     void testLic6Negative() {
         // Requirement: distance > DIST
         Decide.NUMPOINTS = 3;
@@ -324,10 +328,11 @@ class DecideTest {
         Decide.Y = new double[]{0.0, 2.0, 0.0};
 
         // 2 < 3 -> False
-        assertFalse(Decide.lic6(), "LIC 6 should be false when point is closer than DIST to line");
+        assertFalse(Decide.lic6(), "Point is closer than DIST to line, expected LIC6 to be false");
     }
 
     @Test
+    @DisplayName("Positive test case for identical endpoints in LIC6")
     void testLic6PositiveIdentical() {
         // Requirement: If first and last points are the same, compare distance to that point
         Decide.NUMPOINTS = 3;
@@ -338,10 +343,11 @@ class DecideTest {
         Decide.Y = new double[]{0.0, 0.0, 0.0};
 
         // 2 > 1 -> True
-        assertTrue(Decide.lic6(), "LIC 6 should handle identical endpoints correctly");
+        assertTrue(Decide.lic6(), "Expected LIC 6 to be true, point is further than DIST from endpoints");
     }
 
     @Test
+    @DisplayName("Negative test case for identical endpoints in LIC6")
     void testLic6NegativeIdentical() {
         // Requirement: If first and last points are the same, compare distance to that point
         Decide.NUMPOINTS = 3;
@@ -352,11 +358,12 @@ class DecideTest {
         Decide.Y = new double[]{0.0, 0.0, 0.0};
 
         // 2 < 3 -> False
-        assertFalse(Decide.lic6(), "LIC 6 should handle identical endpoints correctly");
+        assertFalse(Decide.lic6(), "Expected LIC 6 to be false, point is closer than DIST to endpoints");
     }
     // LIC 4 TEST
 
     @Test
+    @DisplayName("Positive test case for multi-quadrant points in LIC4")
     public void testLic4Positive() {
         // Requires consecutive points in more than QUADS quadrants
         Decide.NUMPOINTS = 4;
@@ -372,6 +379,7 @@ class DecideTest {
     }
 
     @Test
+    @DisplayName("Negative test case for multi-quadrant points in LIC4")
     public void testLic4Negative() {
         Decide.NUMPOINTS = 4;
         Decide.PARAMETERS.Q_PTS = 3;
