@@ -369,8 +369,8 @@ public class Decide {
         }
         return false;
     }
-
-    public static boolean lic7() {
+  
+  public static boolean lic7() {
         if(NUMPOINTS >= 3) {
             for(int i = 0; i < (NUMPOINTS - 1); i++){
                 double x1 = X[i];
@@ -386,6 +386,46 @@ public class Decide {
         }
         return false;
     }
+
+    public static boolean lic8(){
+        if(NUMPOINTS >=5){
+            for(int i = 0; i < (NUMPOINTS - PARAMETERS.A_PTS - PARAMETERS.B_PTS - 2); i++){
+                double x1 = X[i];
+                double x2 = X[i + PARAMETERS.A_PTS + 1];
+                double x3 = X[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
+                double y1 = Y[i];
+                double y2 = Y[i + PARAMETERS.A_PTS + 1];
+                double y3 = Y[i + PARAMETERS.A_PTS + PARAMETERS.B_PTS + 2];
+                
+                // FROM LIC 1
+                double distance_a = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1,2));
+                double distance_b = Math.sqrt(Math.pow(x3-x2, 2) + Math.pow(y3-y2, 2));
+                double distance_c = Math.sqrt(Math.pow(x3-x1, 2) + Math.pow(y3-y1, 2));
+
+                double radius;
+
+                if(Math.pow(distance_a, 2) + Math.pow(distance_b,2) <= Math.pow(distance_c, 2)) {
+                    radius = distance_c / 2;
+
+                }
+                else if(Math.pow(distance_a, 2) + Math.pow(distance_c, 2) <= Math.pow(distance_b, 2)) {
+                    radius = distance_b / 2;
+                }
+                else if(Math.pow(distance_b, 2) + Math.pow(distance_c, 2) <= Math.pow(distance_a, 2)){
+                    radius = distance_a / 2;
+                }
+                else {
+                    double area = 0.5 * Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2));
+                    radius = (distance_a * distance_b * distance_c) / (4 * area);
+                }
+
+                if(radius > PARAMETERS.RADIUS1) {
+                  return true;
+                }
+            }
+        }
+  return false;
+}
 
 
     public static void calculatePUM() {
@@ -530,6 +570,7 @@ public class Decide {
         }
         return false;
     }
+
 
     // function you must write
     public static void DECIDE() {
