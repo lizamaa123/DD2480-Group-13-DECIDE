@@ -497,16 +497,20 @@ public class Decide {
 
         calculatePUM();
         computeFUV();
-
+        
         int trueFUV = 0;
         for(int i = 0; i < 14; i++){
             if(FUV[i] = true){
                 trueFUV++;
             }
+            else
+            {
+                LAUNCH = false;
+            }
         }
         if(trueFUV == 14){
             LAUNCH = true;
         }
-        LAUNCH = false;
+        
     }
 }
