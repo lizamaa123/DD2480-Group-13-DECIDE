@@ -115,6 +115,95 @@ class DecideTest {
         assertFalse(Decide.lic3(), "Expected LIC3 to be false for area < AREA1");
     }
 
+    // LIC 6 TEST
+
+    @Test
+    void testLic6Positive() {
+        // Requirement: distance > DIST
+        Decide.NUMPOINTS = 3;
+        Decide.PARAMETERS.N_PTS = 3;
+        Decide.PARAMETERS.DIST = 1.0;
+
+        Decide.X = new double[]{0.0, 2.0, 4.0};
+        Decide.Y = new double[]{0.0, 2.0, 0.0};
+
+        // 2 > 1 -> True
+        assertTrue(Decide.lic6(), "LIC 6 should be true when point is further than DIST from line");
+    }
+
+    @Test
+    void testLic6Negative() {
+        // Requirement: distance > DIST
+        Decide.NUMPOINTS = 3;
+        Decide.PARAMETERS.N_PTS = 3;
+        Decide.PARAMETERS.DIST = 3.0;
+
+        Decide.X = new double[]{0.0, 2.0, 4.0};
+        Decide.Y = new double[]{0.0, 2.0, 0.0};
+
+        // 2 < 3 -> False
+        assertFalse(Decide.lic6(), "LIC 6 should be false when point is closer than DIST to line");
+    }
+
+    @Test
+    void testLic6PositiveIdentical() {
+        // Requirement: If first and last points are the same, compare distance to that point
+        Decide.NUMPOINTS = 3;
+        Decide.PARAMETERS.N_PTS = 3;
+        Decide.PARAMETERS.DIST = 1.0;
+
+        Decide.X = new double[]{0.0, 2.0, 0.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0};
+
+        // 2 > 1 -> True
+        assertTrue(Decide.lic6(), "LIC 6 should handle identical endpoints correctly");
+    }
+
+    @Test
+    void testLic6NegativeIdentical() {
+        // Requirement: If first and last points are the same, compare distance to that point
+        Decide.NUMPOINTS = 3;
+        Decide.PARAMETERS.N_PTS = 3;
+        Decide.PARAMETERS.DIST = 3.0;
+
+        Decide.X = new double[]{0.0, 2.0, 0.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0};
+
+        // 2 < 3 -> False
+        assertFalse(Decide.lic6(), "LIC 6 should handle identical endpoints correctly");
+    }
+    // LIC 4 TEST
+
+    @Test
+    public void testLic4Positive() {
+        // Requires consecutive points in more than QUADS quadrants
+        Decide.NUMPOINTS = 4;
+        Decide.PARAMETERS.Q_PTS = 3;
+        Decide.PARAMETERS.QUADS = 2;
+
+        Decide.X[0] = 1.0; Decide.Y[0] = 1.0;  // Point 1 in quad 1
+        Decide.X[1] = -1.0; Decide.Y[1] = 1.0;  // Point 2 in quad 2
+        Decide.X[2] = -1.0; Decide.Y[2] = -1.0;  // Point 3 in quad 3
+
+        // Window of points {0,1,2} occupies 3 quadrants, 3 > 2 is True so the LIC is met.
+        assertTrue(Decide.lic4(), "LIC 4 should be true when points are in more than QUADS quadrants");
+    }
+
+    @Test
+    public void testLic4Negative() {
+        Decide.NUMPOINTS = 4;
+        Decide.PARAMETERS.Q_PTS = 3;
+        Decide.PARAMETERS.QUADS = 2;
+
+        // All points in quad 1 or on boundary
+        Decide.X[0] = 1.0; Decide.Y[0] = 1.0;
+        Decide.X[1] = 0.0; Decide.Y[1] = 0.0;
+        Decide.X[2] = 0.0; Decide.Y[2] = 1.0;
+
+        // Window occupies only 1 quadrant, 1 > 2 is False so LIC is not met.
+        assertFalse(Decide.lic4(), "LIC 4 should be false when points are in same quadrant");
+    }
+
     @Test
     @DisplayName("LIC 10 should be positive when area is smaller than AREA1 with correct spacing")
     void testLic10Positive() {
@@ -220,4 +309,30 @@ class DecideTest {
         assertFalse(Decide.lic12(), "Expected LIC12 to be false when NUMPOINTS < 3");
     }
 
+    @DisplayName("Lic 9 should be false when angle is greater than pi - epsilon, or less than pi + epsilon")
+    void testLic9Negative() {
+        Decide.NUMPOINTS = 5;
+        Decide.PARAMETERS.C_PTS = 1;
+        Decide.PARAMETERS.D_PTS = 1;
+        Decide.PARAMETERS.EPSILON = 0.1;
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.5, 2.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
+        
+        assertFalse(Decide.lic9(), "Expected Lic 9 to be false for a straight line");
+
+    }
+
+    @Test
+    @DisplayName("Lic 9 should be positive when angle is less than pi - epsilon, or greater than pi + epsilon")
+    void testLic9Positive(){
+        Decide.NUMPOINTS = 5;
+        Decide.PARAMETERS.C_PTS = 1;
+        Decide.PARAMETERS.D_PTS = 1;
+        Decide.PARAMETERS.EPSILON = 0.1;
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.0, 1.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0, 0.5, 1.0};
+
+        assertTrue(Decide.lic9(), "Expected Lic 9 to be positive for a 90 degree angle");
+    }  
+    
 }
