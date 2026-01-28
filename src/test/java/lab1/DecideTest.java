@@ -12,6 +12,8 @@ class DecideTest {
     void setUp() {
         // Reset parameters before every test to ensure clean state
         Decide.PARAMETERS = new Decide.ParametersT();
+        Decide.X = new double[100];
+        Decide.Y = new double[100];
     }
 
     // LIC 3 TEST
