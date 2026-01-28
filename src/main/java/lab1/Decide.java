@@ -148,7 +148,7 @@ public class Decide {
             double area = 0.5 * Math.abs((x2-x1)*(y3-y1)-(x3-x1)*(y2-y1));
 
             //colinear case
-            if(area == 0.0){
+            if (DOUBLECOMPARE(area, 0.0) == CompType.EQ) {
                 radius = 0.5 * Math.max(a,Math.max(b,c));
             }
             else{
@@ -163,6 +163,7 @@ public class Decide {
             }
         }
         if(condition1 && condition2) return true;
+        return false;
     }
 
     // function you must write
