@@ -82,6 +82,10 @@ public class Decide {
     public static Connectors[][] LCM;
     private static Connectors[][] LCM2;
 
+    // Preliminary Unlocking Vector
+    public static boolean[] PUV;
+    private static boolean[] PUV2;
+
     // Preliminary Unlocking Matrix
     public static boolean[][] PUM;
     private static boolean[][] PUM2;
@@ -248,6 +252,28 @@ public class Decide {
             }
         }
         return false;
+    }
+
+    // Generate FUV from PUV and PUM
+    public static void computeFUV() {
+        // For every LIC represented in PUV
+        for (int i = 0; i < 15; i++) {
+            // If PUV[i] is false, the i:th LIC is irrelevant, so set FUV[i] to true
+            if (!PUV[i]) {
+                FUV[i] = true;
+            } else {
+                boolean entireRowTrue = true;
+                for (int j = 0; j < 15; j++) {
+                    if (i == j) { continue; }  // Skip diagonal of the PUM
+                    // If any element of the PUM row is false, break and set FUV[i] false
+                    if (!PUM[i][j]) {
+                        entireRowTrue = false;
+                        break;
+                    }
+                }
+                FUV[i] = entireRowTrue;
+            }
+        }
     }
 
     // function you must write
