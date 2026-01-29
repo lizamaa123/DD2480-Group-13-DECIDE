@@ -136,7 +136,16 @@ public class Decide {
         return false;
     }
   
+    /*
+    This function checks if there are at least one set of three consecutive data points that canotn be contained within or on a circle with RADIUS1.
+    If the measured sides of the triangle (of the three data points) are greater than RADIUS1, the method returns true. 
+    Otherwise it returns false, even for invalid data (RADIUS1 < 0).
+    The function uses a helper method to calculate the Euclidean distance: calculateDistance()
+     */
     public static boolean lic1() {
+        if(PARAMETERS.LENGTH1 < 0) {
+            return false;
+        }
         for(int i = 0; i < NUMPOINTS - 2; i++) {
             double x1 = X[i];
             double x2 = X[i + 1];
