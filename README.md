@@ -26,9 +26,10 @@ To build and run this project, you will need:
     ```
 
 3. **Build and Run application**
+
 To run the main program, enter the following terminal command: 
 ```
-mvn compile 
+mvn compile               
 mvn exec:java -Dexec.mainClass="lab1.Main"
 ```
 
@@ -46,24 +47,24 @@ mvn exec:java -Dexec.mainClass="lab1.Main"
 **Elinor Selinder:**
 - Wrote solutions and unit tests for LIC's 13 and 14
 - Wrote solution for CMV implementation and corresponding unit tests
-- Reviewed and merged PR's for following issues: LIC 3, 11 (with its corresponding unit tests) and README.md
+- Reviewed and merged PR's for following issues: LIC 3, 11, 8 (with its corresponding unit tests) and README.md
 
-**Omar Almassri**
+**Omar Almassri:**
 - Wrote solutions and unit tests for LIC's 10, 11, 12
 - Wrote solution for PUM and corresponding unit tests
 - Reviewed and merged PR's for following issues: LIC 2, 5, 7, ```DECIDE()``` (with its corresponding unit tests) and README.md
 
-**Hannes Westerberg**
+**Hannes Westerberg:**
 - Wrote solutions and unit tests for LIC's 4, 5, 6
 - Wrote solution for FUV implementation and corresponding unit tests
 - Reviewed and merged PR's for following issues: LIC 0, 10, 14, CMV (with its corresponding unit tests) and README.md
 
-**Helin Saeid**
+**Helin Saeid:**
 - Wrote solutions and unit tests for LIC's 7, 8, 9 
 - Wrote solution for ``DECIDE()`` 
-- Reviewed and merged PR's for following issues: LIC 1, 4, 12, 8 and PUM (with its corresponding unit tests)
+- Reviewed and merged PR's for following issues: LIC 1, 4, 12 and PUM (with its corresponding unit tests)
 
-**Liza Aziz**
+**Liza Aziz:**
 - Wrote solutions and unit tests for LIC's 0, 1, 2, 3
 - Wrote program in ```Main.java``` and unit test for `DECIDE()`
 - Created and organized project folders/files/code, incl. setting up Maven implementation and handling documentation (README.md & LICENSE.md). 
