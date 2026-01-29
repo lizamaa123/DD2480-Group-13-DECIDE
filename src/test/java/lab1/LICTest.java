@@ -177,6 +177,10 @@ public class LICTest {
 
     // //////////// LIC 3  ///////////
 
+    /*
+    Unit test when computing LIC3 method with a valid input. Valid input is AREA1 ≥ 0.
+    This tests if a set of three consecutive data points can create an area greater than AREA1, which should return true.
+     */
     @Test
     @DisplayName("LIC 3 should be true when area is bigger than AREA1")
     void testLic3Positive() {
@@ -188,6 +192,11 @@ public class LICTest {
 
         assertTrue(Decide.lic3(), "Expected LIC3 to be true for area > AREA1");
     }
+
+    /*
+    Unit test when computing LIC3 method with a valid input. Valid input is AREA1 ≥ 0.
+    This tests if a set of three consecutive data points cannot create an area greater than AREA1, which should return false.
+     */
     @Test
     @DisplayName("LIC 3 should be false when area is smaller than AREA1")
     void testLic3Negative() {
@@ -198,6 +207,22 @@ public class LICTest {
         Decide.Y = new double[]{2.0, 0.0, 0.0};
 
         assertFalse(Decide.lic3(), "Expected LIC3 to be false for area < AREA1");
+    }
+
+    /*
+    Unit test when computing LIC3 method with an invalid input should return false.
+    Invalid input is AREA1 < 0.
+     */
+    @Test
+    @DisplayName("LIC 3 should be false when AREA1 < 0 (invalid)")
+    void testLic3InvalidInput() {
+        // Setting up new test parameters
+        Decide.PARAMETERS.AREA1 = -5.0;
+        Decide.NUMPOINTS = 3;
+        Decide.X = new double[]{0.0, 5.0, 9.0}; 
+        Decide.Y = new double[]{0.0, 0.0, 0.0};
+
+        assertFalse(Decide.lic3(), "Expected LIC3 to be false when input is invalid");
     }
     
     // //////////// LIC 4  ///////////
