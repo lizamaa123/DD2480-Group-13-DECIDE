@@ -121,6 +121,11 @@ public class LICTest {
     
     // //////////// LIC 4  ///////////
 
+    /**
+     * Contract: The LIC is met if a set of Q_PTS consecutive points occupy more than QUADS unique quadrants.
+     * Input: 4 points spanning 3 unique quadrants (I, II, III). QUADS = 2, Q_PTS = 3.
+     * Output: True (3 quadrants > 2)
+     */
     @Test
     @DisplayName("Positive test case for multi-quadrant points in LIC4")
     public void testLic4Positive() {
@@ -137,6 +142,11 @@ public class LICTest {
         assertTrue(Decide.lic4(), "LIC 4 should be true when points are in more than QUADS quadrants");
     }
 
+    /**
+     * Contract: The LIC is not met if the number of unique quadrants occupied is less than or equal to QUADS.
+     * Input: 4 points all located in quadrant 1. QUADS = 2, Q_PTS = 3.
+     * Output: False (1 quadrant <= 2)
+     */
     @Test
     @DisplayName("Negative test case for multi-quadrant points in LIC4")
     public void testLic4Negative() {
@@ -153,8 +163,35 @@ public class LICTest {
         assertFalse(Decide.lic4(), "LIC 4 should be false when points are in same quadrant");
     }
 
+    /**
+     * Contract: Method must handle invalid input where window size (Q_PTS) exceeds available points (NUMPOINTS).
+     * Input: NUMPOINTS = 3, Q_PTS = 4.
+     * Output: False
+     */
+    @Test
+    @DisplayName("Invalid input test for LIC 4 where Q_PTS > NUMPOINTS")
+    public void testLic4InvalidInput() {
+        // Requirement: (2 < Q_PTS <= NUMPOINTS)
+        // If Q_PTS is greater than NUMPOINTS, the function should immediately return false.
+        Decide.NUMPOINTS = 3;
+        Decide.PARAMETERS.Q_PTS = 4; // Window size larger than the number of data points
+        Decide.PARAMETERS.QUADS = 1;
+
+        // Coordinate values are irrelevant here
+        Decide.X[0] = 1.0; Decide.Y[0] = 1.0;
+        Decide.X[1] = 1.0; Decide.Y[1] = 1.0;
+        Decide.X[2] = 1.0; Decide.Y[2] = 1.0;
+
+        assertFalse(Decide.lic4(), "LIC 4 should be false when Q_PTS is greater than NUMPOINTS");
+    }
+
     // //////////// LIC 5  ///////////
 
+    /**
+     * Contract: The LIC is met if there exists at least one pair of consecutive points such that X[i+1] < X[i].
+     * Input: Sequence of X coordinates [1.0, 5.0, 4.0].
+     * Output: True (4 < 5)
+     */
     @Test
     @DisplayName("LIC 5 should be true when x is decreasing")
     public void testLic5Positive() {
@@ -168,6 +205,11 @@ public class LICTest {
         assertTrue(Decide.lic5(), "LIC 5 should be true if x decreases");
     }
 
+    /**
+     * Contract: The LIC is not met if the X coordinates are strictly increasing or equal.
+     * Input: Sequence of X coordinates [1.0, 2.0, 2.0].
+     * Output: False
+     */
     @Test
     @DisplayName("LIC 5 should be false when x is not decreasing")
     public void testLic5Negative() {
@@ -180,8 +222,33 @@ public class LICTest {
         assertFalse(Decide.lic5(), "LIC 5 should be false if x is not decreasing");
     }
 
+    /**
+     * Contract: The function must return false if there are insufficient points to form a consecutive pair.
+     * Input: NUMPOINTS = 1.
+     * Output: False
+     */
+    @Test
+    @DisplayName("Invalid input test for LIC5 with insufficient points")
+    public void testLic5InvalidInput() {
+        // LIC 5 requires at least 2 consecutive points to compare X differences.
+        // If NUMPOINTS < 2, the loop should never be entered and return false.
+        Decide.NUMPOINTS = 1;
+
+        // With just one point, we cannot form a pair
+        Decide.X[0] = 1.0;
+        Decide.Y[0] = 1.0;
+
+        assertFalse(Decide.lic5(), "LIC 5 should be false when NUMPOINTS is less than 2");
+    }
+
     // //////////// LIC 6  ///////////
 
+    /**
+     * Contract: The LIC is met if any point in a set of N_PTS lies further than
+     *           DIST from the line connecting the set's endpoints.
+     * Input: Line from (0,0) to (4,0). Middle point at (2,2). DIST = 1.0.
+     * Output: True (distance 2 > 1)
+     */
     @Test
     @DisplayName("LIC 6 should be true when point is further than DIST from line")
     void testLic6Positive() {
@@ -197,8 +264,14 @@ public class LICTest {
         assertTrue(Decide.lic6(), "Point is further than DIST from line, expected LIC6 to be true");
     }
 
+    /**
+     * Contract: The LIC is not met if all intermediate points lie within
+     *           DIST of the line connecting the endpoints.
+     * Input: Line from (0,0) to (4,0). Middle point at (2,2). DIST = 3.0.
+     * Output: False (distance 2 < 3)
+     */
     @Test
-    @DisplayName("LIC 6 should be false when point is closer than DIST to line")
+    @DisplayName("LIC 6 should be false when all points are closer than DIST to line")
     void testLic6Negative() {
         // Requirement: distance > DIST
         Decide.NUMPOINTS = 3;
@@ -212,6 +285,12 @@ public class LICTest {
         assertFalse(Decide.lic6(), "Point is closer than DIST to line, expected LIC6 to be false");
     }
 
+    /**
+     * Contract: When endpoints coincide, the check compares distance
+     *           from the point to the endpoint(s) instead of a line.
+     * Input: Endpoints at (0,0). Middle point at (2,0). DIST = 1.0.
+     * Output: True (distance 2 > 1)
+     */
     @Test
     @DisplayName("Positive test case for identical endpoints in LIC6")
     void testLic6PositiveIdentical() {
@@ -227,6 +306,11 @@ public class LICTest {
         assertTrue(Decide.lic6(), "Expected LIC 6 to be true, point is further than DIST from endpoints");
     }
 
+    /**
+     * Contract: When endpoints coincide, the check returns false if the point is within DIST of the endpoint.
+     * Input: Endpoints at (0,0). Middle point at (2,0). DIST = 3.0.
+     * Output: False (distance 2 < 3)
+     */
     @Test
     @DisplayName("Negative test case for identical endpoints in LIC6")
     void testLic6NegativeIdentical() {
@@ -240,6 +324,26 @@ public class LICTest {
 
         // 2 < 3 -> False
         assertFalse(Decide.lic6(), "Expected LIC 6 to be false, point is closer than DIST to endpoints");
+    }
+
+    /**
+     * Contract: Method must return false if there are fewer than 3 points,
+     *           as there will be no intermediate points.
+     * Input: NUMPOINTS = 2.
+     * Output: False
+     */
+    @Test
+    @DisplayName("Invalid input test for LIC6 where NUMPOINTS < 3")
+    void testLic6InvalidInput() {
+        // Requirement: The condition is not met when NUMPOINTS < 3
+        Decide.NUMPOINTS = 2; // Insufficient points to form a line + test point
+        Decide.PARAMETERS.N_PTS = 3;
+        Decide.PARAMETERS.DIST = 1.0;
+
+        Decide.X = new double[]{0.0, 1.0};
+        Decide.Y = new double[]{0.0, 1.0};
+
+        assertFalse(Decide.lic6(), "LIC 6 should be false when NUMPOINTS is less than 3");
     }
 
     // //////////// LIC 7  ///////////

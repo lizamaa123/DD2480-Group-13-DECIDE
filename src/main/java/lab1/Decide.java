@@ -214,6 +214,12 @@ public class Decide {
         return false;
     }
 
+    /**
+     * LIC 4: Quadrant check.
+     * Checks if there is a set of Q_PTS consecutive data points that lie in more than QUADS quadrants.
+     * Inputs: Global variables X, Y, NUMPOINTS, PARAMETERS.Q_PTS, PARAMETERS.QUADS.
+     * Returns: true if the condition is met, false otherwise.
+     */
     public static boolean lic4() {
         // If the set size is larger than the number of available points, the LIC is impossible
         if (PARAMETERS.Q_PTS > NUMPOINTS) { return false; }
@@ -242,8 +248,13 @@ public class Decide {
         return false;
     }
 
-    // Checks if there is at least one point which has moved in
-    // the negative x-direction compared to the point before it
+    /**
+     * LIC 5: Check for movement in the negative x-direction
+     * Checks if there exists a pair of consecutive points
+     * such that X[j] - X[i] < 0 (where j = i + 1).
+     * Inputs: Global variables X, NUMPOINTS.
+     * Returns: true if two consecutive points move backward on the x-axis, false otherwise
+     */
     public static boolean lic5() {
         for (int i = 0; i < NUMPOINTS - 1; i++) {
             if (DOUBLECOMPARE(X[i+1] - X[i], 0.0) == CompType.LT) {
@@ -253,7 +264,14 @@ public class Decide {
         return false;
     }
 
-    
+    /**
+     * LIC 6: Point-to-line distance check
+     * Checks if there exists a set of N_PTS consecutive points where at least one point lies
+     * further than DIST from the line joining the first and last points of the set.
+     * Handles the case where the first and last points are identical.
+     * Inputs: Global variables X, Y, NUMPOINTS, PARAMETERS.N_PTS, PARAMETERS.DIST.
+     * Returns: true if the condition is met, false otherwise.
+     */
     public static boolean lic6() {
         if (NUMPOINTS < 3) { return false; }
 
