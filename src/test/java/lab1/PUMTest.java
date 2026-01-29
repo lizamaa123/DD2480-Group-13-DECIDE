@@ -18,6 +18,11 @@ public class PUMTest {
         Decide.CMV = new boolean[15];
     }
 
+    /**
+     * Contract: PUM value should be set based on the LCM connector ANDD.
+     * Input: LCM[0][1] = ANDD, CMV[0] = true, CMV[1] = false.
+     * Output: False (true && false is false)
+     */
     @Test
     @DisplayName("PUM should handle ANDD logic correctly")
     void testPumAndd() {
@@ -31,6 +36,11 @@ public class PUMTest {
         assertFalse(Decide.PUM[0][1], "true AND false should result in false");
     }
 
+    /**
+     * Contract: PUM value should be set based on the LCM connector ORR.
+     * Input: LCM[0][1] = ORR, CMV[0] = true, CMV[1] = false.
+     * Output: True (true || false is true)
+     */
     @Test
     @DisplayName("PUM should handle ORR logic correctly")
     void testPumOrr() {
@@ -44,6 +54,11 @@ public class PUMTest {
         assertTrue(Decide.PUM[0][1], "true OR false should result in true");
     }
 
+    /**
+     * Contract: PUM value should always be true if the connector is NOTUSED.
+     * Input: LCM[0][1] = NOTUSED. CMV values are irrelevant (both false here).
+     * Output: True
+     */
     @Test
     @DisplayName("PUM should handle NOTUSED logic correctly")
     void testPumNotUsed() {
