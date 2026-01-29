@@ -46,7 +46,7 @@ mvn exec:java -Dexec.mainClass="lab1.Main"
 **Elinor Selinder:**
 - Wrote solutions and unit tests for LIC's 13 and 14
 - Wrote solution for CMV implementation and corresponding unit tests
-- Reviewed and merged PR's for following issues: LIC 3, 8, 11 (with its corresponding unit tests) and README.md
+- Reviewed and merged PR's for following issues: LIC 3, 11 (with its corresponding unit tests) and README.md
 
 **Omar Almassri**
 - Wrote solutions and unit tests for LIC's 10, 11, 12
@@ -60,13 +60,13 @@ mvn exec:java -Dexec.mainClass="lab1.Main"
 
 **Helin Saeid**
 - Wrote solutions and unit tests for LIC's 7, 8, 9 
-- Wrote solution for ``DECIDE()`` and corresponding unit tests
-- Reviewed and merged PR's for following issues: LIC 1, 4, 12 and PUM (with its corresponding unit tests)
+- Wrote solution for ``DECIDE()`` 
+- Reviewed and merged PR's for following issues: LIC 1, 4, 12, 8 and PUM (with its corresponding unit tests)
 
 **Liza Aziz**
 - Wrote solutions and unit tests for LIC's 0, 1, 2, 3
-- Wrote program in ```Main.java```
-- Created and organized project folders/files, incl. setting up Maven implementation and handling documentation (README.md & LICENSE.md). 
+- Wrote program in ```Main.java``` and unit test for `DECIDE()`
+- Created and organized project folders/files/code, incl. setting up Maven implementation and handling documentation (README.md & LICENSE.md). 
 - Reviewed and merged PR's for following issues: LIC 6, 9, 13 and and FUV (with its corresponding unit tests)
 
 ### Remarkable
