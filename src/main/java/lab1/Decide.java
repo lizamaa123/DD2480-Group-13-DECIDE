@@ -399,6 +399,14 @@ public class Decide {
         return false;
     }
 
+    /**
+     * LIC 10: Triangle Area Check.
+     * Checks if there exists at least one set of three data points separated by exactly
+     * E_PTS and F_PTS consecutive intervening points, respectively, that form a
+     * triangle with area greater than AREA1.
+     * Inputs: Global variables X, Y, NUMPOINTS, PARAMETERS.E_PTS, PARAMETERS.F_PTS, PARAMETERS.AREA1.
+     * Returns: true if the condition is met, false otherwise.
+     */
     public static boolean lic10() {
         if(NUMPOINTS < 5) {
             return false;
@@ -417,6 +425,14 @@ public class Decide {
         return false;
     }
 
+    /**
+     * LIC 11: X-coordinate Difference Check.
+     * Checks if there exists at least one set of two data points, separated by exactly
+     * G_PTS consecutive intervening points, such that the second point has a smaller
+     * X-coordinate than the first (X[j] - X[i] < 0).
+     * Inputs: Global variables X, NUMPOINTS, PARAMETERS.G_PTS.
+     * Returns: true if the condition is met, false otherwise.
+     */
     public static boolean lic11() {
         if(NUMPOINTS < 3) {
             return false;
@@ -432,6 +448,14 @@ public class Decide {
         return false;
     }
 
+    /**
+     * LIC 12: Two-Distance Check.
+     * Checks if there exists at least one set of two data points, separated by K_PTS,
+     * with distance greater than LENGTH1. AND checks if there exists at least one set
+     * (can be the same) separated by K_PTS with distance less than LENGTH2.
+     * Inputs: Global variables X, Y, NUMPOINTS, PARAMETERS.K_PTS, PARAMETERS.LENGTH1, PARAMETERS.LENGTH2.
+     * Returns: true if both conditions are met, false otherwise.
+     */
     public static boolean lic12() {
         if(NUMPOINTS < 3) {
             return false;
@@ -552,6 +576,16 @@ public class Decide {
         CMV[14] = lic14();
     }
 
+    /**
+     * Calculates the Preliminary Unlocking Matrix (PUM).
+     * Populates the PUM based on the Logical Connector Matrix (LCM) and the Conditions Met Vector (CMV).
+     * Logic:
+     * - ANDD: True if both CMV[i] and CMV[j] are true.
+     * - ORR: True if either CMV[i] or CMV[j] is true.
+     * - NOTUSED: Always true.
+     * Inputs: Global variables LCM, CMV.
+     * Output: Populates the global PUM matrix.
+     */
     public static void calculatePUM() {
         PUM = new boolean[15][15];
 

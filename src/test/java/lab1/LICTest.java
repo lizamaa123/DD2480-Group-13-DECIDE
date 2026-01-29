@@ -426,6 +426,11 @@ public class LICTest {
 
     // //////////// LIC 10  ///////////
 
+    /**
+     * Contract: The LIC is met if three points separated by E_PTS and F_PTS form a triangle with area > AREA1.
+     * Input: 5 points. Points at indices 0, 2, 4 form a triangle with Area=8.0. E_PTS=1, F_PTS=1, AREA1=5.0.
+     * Output: True (8.0 > 5.0)
+     */
     @Test
     @DisplayName("LIC 10 should be positive when area is smaller than AREA1 with correct spacing")
     void testLic10Positive() {
@@ -441,6 +446,11 @@ public class LICTest {
         assertTrue(Decide.lic10(), "Expected LIC10 to be true (Area 8.0 > AREA1 5.0)");
     }
 
+    /**
+     * Contract: The LIC is not met if the calculated triangle area is not strictly greater than AREA1.
+     * Input: Same triangle as positive test (Area=8.0), but AREA1=10.0.
+     * Output: False (8.0 < 10.0)
+     */
     @Test
     @DisplayName("LIC 10 Negative: Triangle area < AREA1")
     void testLic10Negative() {
@@ -456,6 +466,11 @@ public class LICTest {
         assertFalse(Decide.lic10(), "Expected LIC10 to be false (Area 8.0 < AREA1 10.0)");
     }
 
+    /**
+     * Contract: The function must return false if there are fewer than 5 points.
+     * Input: NUMPOINTS = 4.
+     * Output: False
+     */
     @Test
     @DisplayName("LIC 10 Negative: Not enough data points")
     void testLic10InsufficientPoints() {
@@ -464,7 +479,12 @@ public class LICTest {
     }
 
     // //////////// LIC 11 ///////////
-    
+
+    /**
+     * Contract: The LIC is met if there exists a pair of points separated by G_PTS where X[j] < X[i].
+     * Input: Points at index 0 (X=5.0) and index 2 (X=4.0). G_PTS=1.
+     * Output: True (4.0 - 5.0 < 0)
+     */
     @Test
     @DisplayName("Lic 11 should be true when X[j] - X[i] < 0 with gap G_PTS")
     public void testLic11Positive() {
@@ -476,6 +496,11 @@ public class LICTest {
         assertTrue(Decide.lic11(), "Expected Lic 11 to be true when X[j] - X[i] < 0");
     }
 
+    /**
+     * Contract: The LIC is not met if X coordinates are increasing or equal for all valid pairs.
+     * Input: X values [1.0, 0.0, 2.0, 0.0] with G_PTS=1. Pairs are (1.0, 2.0) and (0.0, 0.0).
+     * Output: False
+     */
     @Test
     @DisplayName("Lic 11 should be false when no pair satisfies X[j] - X[i] < 0")
     void testLic11Negative() {
@@ -487,6 +512,11 @@ public class LICTest {
         assertFalse(Decide.lic11(), "Expected Lic 11 to be false when X value only increases or stays same");
     }
 
+    /**
+     * Contract: The function must return false if NUMPOINTS < 3.
+     * Input: NUMPOINTS = 2.
+     * Output: False
+     */
     @Test
     @DisplayName("Lic 11 should be false when NUMPOINTS < 3")
     void testLic11Negative2() {
@@ -500,6 +530,11 @@ public class LICTest {
 
     // //////////// LIC 12 ///////////
 
+    /**
+     * Contract: The LIC is met if one pair (dist > LENGTH1) AND one pair (dist < LENGTH2) exist.
+     * Input: Pair 1 dist=6 (LENGTH1=5). Pair 2 dist=1 (LENGTH2=2). K_PTS=1.
+     * Output: True (Both conditions met)
+     */
     @Test
     @DisplayName("LIC 12 should be true when one pair has distance > LENGTH1 AND one pair has distance < LENGTH2")
     void testLic12Positive() {
@@ -517,6 +552,11 @@ public class LICTest {
         assertTrue(Decide.lic12(), "Expected Lic 12 to be true when both conditions are met");
     }
 
+    /**
+     * Contract: The LIC is not met if only one of the two conditions is satisfied.
+     * Input: All pairs have dist=6. LENGTH1=5 (Met), LENGTH2=2 (Not Met).
+     * Output: False
+     */
     @Test
     @DisplayName("LIC 12 should be false when only distance > LENGTH1 exists (missing < LENGTH2)")
     void testLic12NegativeMissingSmall() {
@@ -534,6 +574,11 @@ public class LICTest {
         assertFalse(Decide.lic12(), "Expected LIC12 to be false when condition 2 is missing");
     }
 
+    /**
+     * Contract: The function must return false if NUMPOINTS < 3.
+     * Input: NUMPOINTS = 2.
+     * Output: False
+     */
     @Test
     @DisplayName("LIC 12 should be false when NUMPOINTS < 3")
     void testLic12InsufficientPoints() {
