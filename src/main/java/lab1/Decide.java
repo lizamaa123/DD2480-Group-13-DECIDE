@@ -109,7 +109,15 @@ public class Decide {
 
     // //////////// LIC'S  ///////////
 
+    /*
+    This function measures the Euclidean distance between two consecutive points, i.e (X[i],Y[i]) and (X[i+1],Y[i+1]).
+    If the distance is greater than LENGHT1, the method returns true. Otherwise, it returns false - even for invalid data (LENGHT1 < 0).
+    The function uses a helper method to calculate the Euclidean distance: calculateDistance()
+     */
     public static boolean lic0() {
+        if(PARAMETERS.LENGTH1 < 0) {
+            return false;
+        }
         for(int i = 0; i < NUMPOINTS - 1; i++) {
             // consecutive data points e.g. (X[i],Y[i]) and (X[i+1],Y[i+1]) <-- from Glossary in assignment.
             double x1 = X[i];
