@@ -226,7 +226,18 @@ public class Decide {
         return false;
     }
 
+    /*
+    This function checks if there are at least one set of three consecutive data points that create a triangle with
+    an area greater than AREA1. 
+    If the measured area (of the three data points) are greater than AREA1, the method returns true. 
+    Otherwise it returns false, even for invalid data (AREA1 < 0).
+    The function uses a helper method to calculate the the triangle are: calculateTriangleArea()
+     */
     public static boolean lic3() {
+        if(PARAMETERS.AREA1 < 0) {
+            return false;
+        }
+
         for(int i = 0; i < NUMPOINTS - 2; i++) {
             double x1 = X[i], x2 = X[i + 1];
             double x3 = X[i + 2], y1 = Y[i];
