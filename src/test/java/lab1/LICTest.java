@@ -2,7 +2,6 @@ package lab1;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -244,9 +243,10 @@ public class LICTest {
 
     // //////////// LIC 7  ///////////
 
+    // Input test, input is less than 3, method should return false result regardless of data values
     @Test
     @DisplayName("Lic 7 should be false when NUMPOINTS is less than 3")
-    void testLic7Negative() {
+    void testLic7InputNegative() {
         Decide.NUMPOINTS = 2;
         Decide.PARAMETERS.K_PTS = 1;
         Decide.X = new double[]{1.0, 2.0, 3.0};
@@ -255,9 +255,23 @@ public class LICTest {
         assertFalse(Decide.lic3(), "Expected Lic 7 to be false when NUMPOINTS < 3");
     }
 
+    // Negative test where inputs are valid, LENGTH1 is set to 3, distance between data points is sqrt(8) which is less than LENGTH1, method should return false
+    @Test
+    @DisplayName("Lic 7 should be false when distance is less than LENGTH1")
+    void testLic7ValueNegative() {
+        Decide.NUMPOINTS = 3;
+        Decide.PARAMETERS.K_PTS = 1;
+        Decide.PARAMETERS.LENGTH1 = 3;
+        Decide.X = new double[]{1.0, 2.0, 3.0};
+        Decide.Y = new double[]{1.0, 2.0, 3.0};
+
+        assertFalse(Decide.lic7(), "Expected Lic 7 to be false when d < LENGTH1");
+    }
+
+    // Positive test, valid inputs, LENGTH1 is set to 1, distance between data points is sqrt(8) which is greater than LENGTH1, method should return true
     @Test
     @DisplayName("Lic 7 should be true when distance is greater than LENGTH1")
-    void testLic7Positive() {
+    void testLic7ValuePositive() {
         Decide.NUMPOINTS = 3;
         Decide.PARAMETERS.K_PTS = 1;
         Decide.PARAMETERS.LENGTH1 = 1;
@@ -268,34 +282,66 @@ public class LICTest {
     }
 
     // //////////// LIC 8  ///////////
+    // Input test, input is less than 5, method should return false regardless of data values
+    @Test
+    @DisplayName("Lic 8 should be false when NUMPOINTS is less than 5")
+    void testLic8InputNegative() {
+        Decide.PARAMETERS.RADIUS1 = 1.0;
+        Decide.NUMPOINTS = 4;
+        Decide.PARAMETERS.A_PTS = 1;
+        Decide.PARAMETERS.B_PTS = 1;
+        Decide.X = new double[]{0.0, 0.0, 0.0, 0.0, 2.0};
+        Decide.Y = new double[]{0.0, 0.0, 2.0, 0.0, 0.0};
 
+        assertFalse(Decide.lic8(), "Expected Lic 8 to be false for radius <= RADIUS1");
+    }
+
+    // Positive test, valid inputs, RADIUS1 is set to 1, right triangle; longest side is sqrt(8), sqrt(8) divided by 2 is greater RADIUS1, method should return true
     @Test
     @DisplayName("Lic 8 should be true when radius is greater than RADIUS1")
-    void testLic8Positive() {
+    void testLic8ValuePositive() {
         Decide.PARAMETERS.RADIUS1 = 1.0;
         Decide.NUMPOINTS = 5;
-        Decide.X = new double[]{0.0, 1.0, 0.0, 2.0, 0.0};
-        Decide.Y = new double[]{0.0, 0.0, 1.0, 0.0, 2.0};
+        Decide.PARAMETERS.A_PTS = 1;
+        Decide.PARAMETERS.B_PTS = 1;
+        Decide.X = new double[]{0.0, 0.0, 0.0, 0.0, 2.0};
+        Decide.Y = new double[]{0.0, 0.0, 2.0, 0.0, 0.0};
 
         assertTrue(Decide.lic8(), "Expected Lic 8 to be true for radius > RADIUS1");
     }
 
+    // Negative test, valid inputs, RADIUS1 is set to 2, longest side is sqrt(8), sqrt(8) divided by 2 is less than RADIUS1, method should return false
     @Test
     @DisplayName("Lic 8 should be false when radius is less than or equal to RADIUS1")
-    void testLic8Negative() {
-        Decide.PARAMETERS.RADIUS1 = 1.0;
+    void testLic8ValueNegative() {
+        Decide.PARAMETERS.RADIUS1 = 2.0;
         Decide.NUMPOINTS = 5;
-        Decide.X = new double[]{0.0, 0.0, 2.5, 0.0, 0.0};
-        Decide.Y = new double[]{0.0, 0.0, 0.0, 0.0, 2.5};
+        Decide.PARAMETERS.A_PTS = 1;
+        Decide.PARAMETERS.B_PTS = 1;
+        Decide.X = new double[]{0.0, 0.0, 0.0, 0.0, 2.0};
+        Decide.Y = new double[]{0.0, 0.0, 2.0, 0.0, 0.0};
 
-        assertTrue(Decide.lic8(), "Expected Lic 8 to be false for radius <= RADIUS1");
+        assertFalse(Decide.lic8(), "Expected Lic 8 to be false for radius <= RADIUS1");
     }
 
     // //////////// LIC 9  ///////////
+    // Input test, input is less than 5 points, method should return false regardless of data values
+    @Test
+    @DisplayName("Lic 9 should be false when NUMPOINTS < 5")
+    void testLic9InputNegative(){
+        Decide.NUMPOINTS = 4;
+        Decide.PARAMETERS.C_PTS = 1;
+        Decide.PARAMETERS.D_PTS = 1;
+        Decide.PARAMETERS.EPSILON = 0.1;
+        Decide.X = new double[]{0.0, 0.5, 1.0, 1.0, 1.0};
+        Decide.Y = new double[]{0.0, 0.0, 0.0, 0.5, 1.0};
 
+        assertFalse(Decide.lic9(), "Expected Lic 9 to be false for NUMPOINTS < 5");
+    }
+    // Negative test, valid inputs, points form a 180 degree angle, method should return false
     @Test
     @DisplayName("Lic 9 should be false when angle is greater than pi - epsilon, or less than pi + epsilon")
-    void testLic9Negative() {
+    void testLic9ValueNegative() {
         Decide.NUMPOINTS = 5;
         Decide.PARAMETERS.C_PTS = 1;
         Decide.PARAMETERS.D_PTS = 1;
@@ -304,12 +350,12 @@ public class LICTest {
         Decide.Y = new double[]{0.0, 0.0, 0.0, 0.0, 0.0};
         
         assertFalse(Decide.lic9(), "Expected Lic 9 to be false for a straight line");
-
     }
 
+    // Positive test, valid inputs, points form a 90 degree angle, method should return true
     @Test
     @DisplayName("Lic 9 should be positive when angle is less than pi - epsilon, or greater than pi + epsilon")
-    void testLic9Positive(){
+    void testLic9ValuePositive(){
         Decide.NUMPOINTS = 5;
         Decide.PARAMETERS.C_PTS = 1;
         Decide.PARAMETERS.D_PTS = 1;
